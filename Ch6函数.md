@@ -3,4 +3,45 @@
 一个典型的函数(function)定义包括: **返回类型**(return type)、**函数名称**、由0个或多个 **形参** (parameter)组成的列表、以及 **函数体**。其中，形参以逗号隔开，形参的列表位于一对圆括号内。
 
 我们通过 **调用运算符** (call operator)来执行函数。调用运算符的形式是一对圆括号，它作用于一个表达式，该表达式是函数或指向函数的指针；圆括号内是一个用逗号隔开的 **实参** (argument)列表。我们用实参 **初始化** 函数形参。
+
+函数调用主要完成两项工作：一是用实参初始化函数对应形参；二是将控制券转移给被调用函数。此时， **主调函数** (calling function)的执行被暂时中断， **被调函数** (called function)开始执行。
+
+函数结构分析
+```C++
+int func_name(int argc1, float argc2) {}
+// 返回类型: int
+// 函数名: func_name
+// 形参: int argc1, float argc2
+// 函数体: {}
+int var = func_name(int_v, float_v);
+// 调用运算符: ()
+// 表达式: func_name
+// 实参: int_v, float_v
+```
+函数执行过程
+> 1. (隐式地)定义并初始化它的形参
+2. 执行语句块
+3. 执行到第一条`return`语句时结束函数执行过程
+4. 返回`return`语句中的值
+5. 用函数返回值初始化调用表达式结果(临时变量)
+6. 将控制权从被调函数转移回主调函数
+7. 完成所在表达式的剩余部分
+
 ### 6.2 复合类型
+#### 6.2.3 const形参与实参
+**尽量使用常量引用**
+把函数不会改变的形参定义为普通引用是一种比较常见的错误:
+1. 给调用者误导，即函数可以修改实参的值
+2. 使用引用而非const引用会极大限制函数所能接受的实参类型
+3. 假如其他函数讲它们的形参定义成常量引用，那么”非常量形参”版本的函数无法在这些函数中调用;
+
+```C++
+// const ref version
+sting::size_type find_char(const string &s, char c, string::size_type &occurs);
+// non-const ref version
+string::size_type find_char(string &s, char c, string::size_type &occurs);
+
+bool is_sentence(const string &s) {
+  //此处只能调用const ref version find_char
+}
+```
