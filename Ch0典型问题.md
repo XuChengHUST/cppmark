@@ -6,3 +6,7 @@
 string read();
 ```
 > warning: empty parentheses interpreted as a function declaration. replace parentheses with an initializer to declare a variable.
+
+### 0.2 零初始化、值初始化、默认初始化
+参考：
+[零初始化、值初始化、默认初始化](https://stackoverflow.com/questions/1613341/what-do-the-following-phrases-mean-in-c-zero-default-and-value-initializat)
