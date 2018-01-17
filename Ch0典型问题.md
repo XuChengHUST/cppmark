@@ -27,3 +27,23 @@ int *pi2 = new int();       // 值初始化为0, *pi2为0
 
 参考：
 [零初始化、值初始化、默认初始化](https://stackoverflow.com/questions/1613341/what-do-the-following-phrases-mean-in-c-zero-default-and-value-initializat)
+
+### 0.3 默认构造函数与自定义默认构造函数
+根据 **cppreference** 上的说明，用户自定义的“空初始化列表+空函数体”默认构造函数和隐式合成的默认构造函数式完全相同的——都是调用基类以及非静态成员的默认构造函数。
+> **Implicitly-defined default constructor**  
+If the implicitly-declared default constructor is not defined as deleted, it is defined (that is, a function body is generated and compiled) by the compiler if odr-used, and **it has exactly the same effect as a user-defined constructor with empty body and empty initializer list**. That is, it calls the default constructors of the bases and of the non-static members of this class.  
+参考: [Default constructors](http://en.cppreference.com/w/cpp/language/default_constructor)
+
+下面的两种类定义，都是通过默认初始化完成了内置类型`int`变量`i`的初始化，都是未定义行为。
+```cpp
+class Foo {
+private:
+  int i;
+};
+class Foo {
+public:
+  Foo() {}
+private:
+  int i;
+};
+```
