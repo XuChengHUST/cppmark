@@ -34,9 +34,15 @@ int *pi2 = new int();       // 值初始化为0, *pi2为0
 If the implicitly-declared default constructor is not defined as deleted, it is defined (that is, a function body is generated and compiled) by the compiler if odr-used, and **it has exactly the same effect as a user-defined constructor with empty body and empty initializer list**. That is, it calls the default constructors of the bases and of the non-static members of this class.  
 参考: [Default constructors](http://en.cppreference.com/w/cpp/language/default_constructor)
 
-下面的两种类定义，都是通过默认初始化完成了内置类型`int`变量`i`的初始化，都是未定义行为。
+下面的三种类定义，都是通过默认初始化完成了内置类型`int`变量`i`的初始化，都是未定义行为。
 ```cpp
 class Foo {
+private:
+  int i;
+};
+class Foo {
+public:
+  Foo() = default;
 private:
   int i;
 };
@@ -45,5 +51,21 @@ public:
   Foo() {}
 private:
   int i;
+};
+```
+使用类内初始值，会首先用类内初始值初始化`int i`，此时`i`就不是未定义的了。
+```cpp
+class Foo {
+private:
+  int i = 0;    // C++11 required
+};
+```
+使用初始化列表，也会首先用初始化列表初始化`int i`，此时`i`同样也不是未定义的了。
+```cpp
+class Foo {
+  Foo() :
+    i() {}  // 值初始化
+private:
+  int i;    // C++11 required
 };
 ```
